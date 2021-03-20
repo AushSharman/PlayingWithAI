@@ -64,13 +64,14 @@ def game():
         if not isEmpty(gameBoard) and not isWinner(gameBoard,player1) and not isWinner(gameBoard,player2):
             print("Tie game")
 
-def minmax(board: list, depth: int, isMaximising: bool) -> int:
-    if isWinner(board,"X") or isWinner(board,"O"):
-        if isWinner(board,"X"): return 1
-        elif isWinner(board, "O"): return -1
+def minmax(board: list,position: int, depth: int, isMaximising: bool) -> int:
+    if (depth == 0 or not isEmpty(board)):
+        if isWinner(board, "X"): return 1
+        elif isWinner(board,"O"): return -1
         else: return 0
     else:
         if isMaximising:
+            maxEval = int("-inf")
             
 
 if __name__ == '__main__':
