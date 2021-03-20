@@ -5,7 +5,7 @@ gameBoard = {1: ' ', 2: ' ', 3: ' ',
              7: ' ', 8: ' ', 9: ' '}
 
 
-def printBoard(board):
+def printBoard(board: dict):
     print(board[1] + '|' + board[2] + '|' + board[3])
     print('-+-+-')
     print(board[4] + '|' + board[5] + '|' + board[6])
@@ -13,13 +13,13 @@ def printBoard(board):
     print(board[7] + '|' + board[8] + '|' + board[9])
     print("\n")
 
-def isEmpty(board: list) -> bool:
+def isEmpty(board: dict) -> bool:
     return " " in list(board.values())
 
-def isSpaceFree(board: list, pos: int) -> bool:
+def isSpaceFree(board: dict, pos: int) -> bool:
     return board[pos] == " "
 
-def isWinner(board, mark):
+def isWinner(board: dict, mark: str):
     winningPositions = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [
         1, 4, 7], [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]]
     for pos in winningPositions:
@@ -31,14 +31,15 @@ def isWinner(board, mark):
 def randomBot():
     return random.randint(1,9)
 
-def makeMove(board: list, player: str, num: int):
+def makeMove(board: dict, player: str, num: int):
     board[num] = player
 
 def game():
     print("Welcome to Tic Tac Toe")
     play = input("Do you wish to play? [Yes or No]")
     if play[0].lower() == "y":
-        numBot = input("Choose the bot of your type [Random Bot or MinMax Bot]: ")
+        bot = input("Choose the bot of your type [Random Bot or MinMax Bot]: ")
+        numBot = randomBot() if bot[0].lower() == "r" else minimax()
         printBoard(gameBoard)
         player1,player2 = "X","O"
         current = player1
@@ -63,6 +64,10 @@ def game():
 
         if not isEmpty(gameBoard) and not isWinner(gameBoard,player1) and not isWinner(gameBoard,player2):
             print("Tie game")
+
+
+def getEmptySpaces(board: dict):
+    pass
 
 if __name__ == '__main__':
     game()
