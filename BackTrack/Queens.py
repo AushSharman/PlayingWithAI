@@ -1,3 +1,4 @@
+#display the board and return it so we can alter it
 def printBoard(dimension: int) -> list:
     dim = []
     for indx in range(dimension):
@@ -7,8 +8,8 @@ def printBoard(dimension: int) -> list:
         print("\n")
     return dim  
 
+
 def isValidMove(board: list, row: int, col: int) -> bool:
-    #print(row ," is row and col us ", col)
     #check up meaning the col is same but row reduces
     for i in range(row,-1,-1):
         if board[i][col] == 1:
@@ -18,29 +19,36 @@ def isValidMove(board: list, row: int, col: int) -> bool:
         if board[r][c] == 1:
             return False
     #check the right upper diagonal meaning that row decreases and col increases
-    for r,c in zip(range(row,-1,-1),range(col+1)):
+    for r,c in zip(range(row,-1,-1),range(col,len(board)-1)):
         if board[r][c] ==1 :
             return False
     return True
 
-def solve(board, row = 0, col = 0):
-    dimension = len(board)-1
-    if row == dimension and col == dimension:
-        return True
+#main chunker of the program 
+def solve(board, row = 0) -> tuple:
+    dimension = len(board)
+    #base case is if row is the length of the actual board (which doesnt exist), return True cuz all queens are places
+    if row == dimension :
+        return (True,board)
     else:
         for position in range(dimension):
+            #call checker for each valid row and col
             if isValidMove(board,row,position):
                 board[row][position] = 1
-                print(board)
-                value = solve(board,row+1,position+1)
+                value,b = solve(board,row+1)
+                if value: return (value,b)
             board[row][position] = 0
-        return False
+    return (False,board)
 
+
+#driver program
 if __name__ == "__main__":
-    board = printBoard(4)
-    if solve(board):
-        print(board)
-    else:
+    dimension = int(input("Enter the dimension of the board: "))
+    value,board = solve(printBoard(dimension))
+    if (dimension == 2 or dimension == 3):
         print("Cannot be solved")
+    else:
+        for i in board:
+            print(i)
 
-#TODO: Adjust the alogorithim as output is incorrect 
+#LEZZZ GO!!!
